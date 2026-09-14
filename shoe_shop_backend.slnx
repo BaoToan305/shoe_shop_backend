@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="shoe_shop_backend.Application/shoe_shop_backend.Application.csproj" />
+  <Project Path="shoe_shop_backend.Domain/shoe_shop_backend.Domain.csproj" Id="a9107b64-0ab4-4914-a3e8-e68b2a04926e" />
+  <Project Path="shoe_shop_backend.Infrastructure/shoe_shop_backend.Infrastructure.csproj" Id="c4360c3f-820e-4e51-8bd1-5dfbbc09abd4" />
+  <Project Path="shoe_shop_backend/shoe_shop_backend.csproj" />
+</Solution>
