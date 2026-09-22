@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using shoe_shop_backend.Application.Service;
+using shoe_shop_backend.Application.Service.Imp;
+using shoe_shop_backend.Application.Service.Interfaces;
 using shoe_shop_backend.Domain.Interfaces;
 using shoe_shop_backend.Extensions.Logs;
 using shoe_shop_backend.Infrastructure.Data.DBContext;
@@ -59,6 +61,8 @@ namespace shoe_shop_backend.Extensions.DependencyInjection
             services.AddScoped(typeof(ICommonRepository<>), typeof(CommonRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICategoryService, CategoryService>();
 
             return services;
         }
