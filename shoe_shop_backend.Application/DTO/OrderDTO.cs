@@ -1,7 +1,8 @@
 ﻿
-namespace shoe_shop_backend.Domain.Main
+
+namespace shoe_shop_backend.Application.DTO
 {
-    public class Order
+    public class OrderDTO
     {
         public string? Id { get; set; }
         public string? UserId { get; set; }
@@ -14,7 +15,5 @@ namespace shoe_shop_backend.Domain.Main
         public decimal DiscountAmount { get; set; }
         public decimal TotalAmount { get; set; }
         public string? Notes { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
     }
 }

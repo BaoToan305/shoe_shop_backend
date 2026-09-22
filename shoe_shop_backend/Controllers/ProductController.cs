@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using shoe_shop_backend.Application.ResquestResponse;
 using shoe_shop_backend.Application.Service;
 
@@ -41,9 +40,9 @@ namespace shoe_shop_backend.Controllers
 
 
         [HttpPut]
-        public async Task<IActionResult> UpdateProductAsync([FromBody] string productId)
+        public async Task<IActionResult> UpdateProductAsync([FromBody] ProductRequest request)
         {
-            return Ok(await _productService.GetProductByIdAsync(productId));
+            return Ok(await _productService.UpdateProductAsync(request));
         }
 
     }

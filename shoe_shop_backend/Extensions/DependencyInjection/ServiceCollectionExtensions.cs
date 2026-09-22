@@ -63,6 +63,7 @@ namespace shoe_shop_backend.Extensions.DependencyInjection
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IProductVariantService, ProductVariantService>();
 
             return services;
         }
