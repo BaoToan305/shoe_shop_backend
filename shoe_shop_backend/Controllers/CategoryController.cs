@@ -34,14 +34,14 @@ namespace shoe_shop_backend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProductByIdAsync([FromQuery] string categoryId)
+        public async Task<IActionResult> GetCategoryByIdAsync([FromQuery] string categoryId)
         {
             return Ok(await _categoryService.GetCategoryByIdAsync(categoryId));
         }
 
 
         [HttpPut]
-        public async Task<IActionResult> UpdateProductAsync([FromBody] CategoryRequest request)
+        public async Task<IActionResult> UpdateCategoryAsync([FromBody] CategoryRequest request)
         {
             return Ok(await _categoryService.UpdateCategoryAsync(request));
         }

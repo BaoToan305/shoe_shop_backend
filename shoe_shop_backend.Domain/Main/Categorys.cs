@@ -1,6 +1,6 @@
 ﻿namespace shoe_shop_backend.Domain.Main
 {
-    public class AddressCategorys
+    public class Categorys
     {
         public string? Id { get; set; }
         public string? Name { get; set; }

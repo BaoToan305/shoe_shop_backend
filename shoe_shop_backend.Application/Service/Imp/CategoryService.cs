@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
+using shoe_shop_backend.Application.DTO;
 using shoe_shop_backend.Application.Helper;
 using shoe_shop_backend.Application.ResquestResponse;
 using shoe_shop_backend.Application.Service.Interfaces;
@@ -22,19 +23,19 @@ namespace shoe_shop_backend.Application.Service.Imp
             _config = config ?? throw new ArgumentNullException(nameof(config));
         }
 
-        public async Task<CategoryResponse> CreateCategoryAsync(CategoryRequest request)
+        public async Task<CategoryDTO> CreateCategoryAsync(CategoryRequest request)
         {
             if (request == null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
-
+            request.Id = UnityHelper.GenerateUlid();
             var categoryEntity = _mapper.Map<Categorys>(request);
 
             await _unitOfWork.Repository<Categorys>().AddAsync(categoryEntity);
             await _unitOfWork.SaveChangesAsync();
 
-            var categoryResponse = _mapper.Map<CategoryResponse>(categoryEntity);
+            var categoryResponse = _mapper.Map<CategoryDTO>(categoryEntity);
             return categoryResponse;
         }
 
@@ -57,17 +58,23 @@ namespace shoe_shop_backend.Application.Service.Imp
             });
         }
 
-        public async Task<List<CategoryResponse>> GetAllCategorysAsync()
+        public async Task<CategoryResponse> GetAllCategorysAsync()
         {
             var listCategory = await _unitOfWork.Repository<Categorys>().GetAllAsync();
             if (listCategory == null || !listCategory.Any())
             {
-                return [];
+                return new CategoryResponse();
             }
-            return listCategory.Select(p => _mapper.Map<CategoryResponse>(p)).ToList();
+            var list = _mapper.Map<List<CategoryDTO>>(listCategory);
+            var response = new CategoryResponse
+            {
+                Categorys = list,
+            };
+
+            return response;
         }
 
-        public async Task<CategoryResponse> GetCategoryByIdAsync(string categoryId)
+        public async Task<CategoryDTO> GetCategoryByIdAsync(string categoryId)
         {
             if (string.IsNullOrWhiteSpace(categoryId))
             {
@@ -78,7 +85,7 @@ namespace shoe_shop_backend.Application.Service.Imp
             {
                 throw new KeyNotFoundException($"Category with ID '{categoryId}' not found.");
             }
-            return _mapper.Map<CategoryResponse>(category);
+            return _mapper.Map<CategoryDTO>(category);
         }
 
         public async Task<bool> UpdateCategoryAsync(CategoryRequest request)

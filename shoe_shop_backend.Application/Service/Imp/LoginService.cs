@@ -47,7 +47,7 @@ namespace shoe_shop_backend.Application.Service
 
             var user = _unitOfWork.Repository<Users>().Find(x => x.UserName == request.Username).FirstOrDefault();
             if (user == null)
-                throw new BadRequestException("Tên đăng nhập không tồn tại");
+                throw new BadRequestException("Tên đăng nhập không chính xác");
 
             if(user.IsActive == false)
                 throw new BadRequestException("Tài khoản đã bị khóa");

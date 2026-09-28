@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using shoe_shop_backend.Application.ResquestResponse;
-using shoe_shop_backend.Application.Service;
-using shoe_shop_backend.Application.Service.Imp;
 using shoe_shop_backend.Application.Service.Interfaces;
 
 namespace shoe_shop_backend.Controllers
 {
-    [Route("api/[controller]/action")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ProductVariantController : ControllerBase
     {
