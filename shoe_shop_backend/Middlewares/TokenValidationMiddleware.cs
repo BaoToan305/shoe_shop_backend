@@ -65,7 +65,11 @@ public class TokenValidationMiddleware
         }
         catch (SecurityTokenExpiredException)
         {
-            throw new UnauthorizedAppException("Token đã hết hạn");
+            throw new UnauthorizedAppException("Token đã hết hạn  ");
+        }
+        catch (SecurityTokenMalformedException)
+        {
+            throw new UnauthorizedAppException("Token sai định dạng");
         }
         catch (Exception)
         {

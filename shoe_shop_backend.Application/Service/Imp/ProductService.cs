@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Configuration;
+using shoe_shop_backend.Application.DTO;
 using shoe_shop_backend.Application.Helper;
 using shoe_shop_backend.Application.ResquestResponse;
 using shoe_shop_backend.Domain.Interfaces;
@@ -20,19 +21,19 @@ namespace shoe_shop_backend.Application.Service
             _config = config ?? throw new ArgumentNullException(nameof(config));
         }
 
-        public async Task<ProductResponse> CreateProductAsync(ProductRequest request)
+        public async Task<ProductDTO> CreateProductAsync(ProductRequest request)
         {
             if (request == null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
-
+            request.Id = UnityHelper.GenerateUlid();
             var productEntity = _mapper.Map<Product>(request);
             
             await _unitOfWork.Repository<Product>().AddAsync(productEntity);
             await _unitOfWork.SaveChangesAsync();
            
-            var productResponse = _mapper.Map<ProductResponse>(productEntity);
+            var productResponse = _mapper.Map<ProductDTO>(productEntity);
             return productResponse;
         }
 
@@ -56,17 +57,24 @@ namespace shoe_shop_backend.Application.Service
            });
         }
 
-        public async Task<List<ProductResponse>> GetAllProductsAsync()
+        public async Task<ProductResponse> GetAllProductsAsync()
         {
            var listProduct = await _unitOfWork.Repository<Product>().GetAllAsync();
            if(listProduct == null || !listProduct.Any())
             {
-                return [];
+                return new ProductResponse();
             }
-            return listProduct.Select(p => _mapper.Map<ProductResponse>(p)).ToList();
+
+            var list = _mapper.Map<List<ProductDTO>>(listProduct);
+            var response = new ProductResponse
+            {
+                Products = list
+            };
+
+            return response;
         }
 
-        public async Task<ProductResponse> GetProductByIdAsync(string productId)
+        public async Task<ProductDTO> GetProductByIdAsync(string productId)
         {
             if (string.IsNullOrWhiteSpace(productId))
             {
@@ -77,7 +85,7 @@ namespace shoe_shop_backend.Application.Service
             {
                 throw new KeyNotFoundException($"Product with ID '{productId}' not found.");
             }
-            return _mapper.Map<ProductResponse>(product);
+            return _mapper.Map<ProductDTO>(product);
         }
 
         public async Task<bool> UpdateProductAsync(ProductRequest request)

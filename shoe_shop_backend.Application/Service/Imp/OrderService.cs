@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Configuration;
+using shoe_shop_backend.Application.DTO;
 using shoe_shop_backend.Application.Helper;
 using shoe_shop_backend.Application.ResquestResponse;
 using shoe_shop_backend.Application.Service.Interfaces;
@@ -27,7 +28,7 @@ namespace shoe_shop_backend.Application.Service.Imp
             {
                 throw new ArgumentNullException(nameof(request));
             }
-
+            request.Id = UnityHelper.GenerateUlid();
             var orderEntity = _mapper.Map<Order>(request);
 
             await _unitOfWork.Repository<Order>().AddAsync(orderEntity);
@@ -57,17 +58,24 @@ namespace shoe_shop_backend.Application.Service.Imp
             });
         }
 
-        public async Task<List<OrderResponse>> GetAllOrdersAsync()
+        public async Task<OrderResponse> GetAllOrdersAsync()
         {
             var listOrder = await _unitOfWork.Repository<Order>().GetAllAsync();
             if (listOrder == null || !listOrder.Any())
             {
-                return [];
+                return new OrderResponse();
             }
-            return listOrder.Select(o => _mapper.Map<OrderResponse>(o)).ToList();
+
+            var list = _mapper.Map<List<OrderDTO>>(listOrder);
+            var orderResponse = new OrderResponse
+            {
+                ListOrder = list
+            };
+
+            return orderResponse;
         }
 
-        public async Task<OrderResponse> GetOrderByIdAsync(string orderId)
+        public async Task<OrderDTO> GetOrderByIdAsync(string orderId)
         {
             if (string.IsNullOrWhiteSpace(orderId))
             {
@@ -78,7 +86,7 @@ namespace shoe_shop_backend.Application.Service.Imp
             {
                 throw new KeyNotFoundException($"Order with ID '{orderId}' not found.");
             }
-            return _mapper.Map<OrderResponse>(order);
+            return _mapper.Map<OrderDTO>(order);
         }
 
         public async Task<bool> UpdateOrderAsync(OrderRequest request)

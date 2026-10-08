@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using shoe_shop_backend.Application.Mapping;
 using shoe_shop_backend.Application.Service;
 using shoe_shop_backend.Application.Service.Imp;
 using shoe_shop_backend.Application.Service.Interfaces;
@@ -39,8 +40,7 @@ namespace shoe_shop_backend.Extensions.DependencyInjection
 
             services.AddAutoMapper(cfg =>
             {
-                cfg.AddMaps(typeof(ServiceCollectionExtensions).Assembly);
-                cfg.AddMaps(Assembly.GetExecutingAssembly());
+                cfg.AddMaps(typeof(BrandsMappingProfile).Assembly);
             });
 
 
